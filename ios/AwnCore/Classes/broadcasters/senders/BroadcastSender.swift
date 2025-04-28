@@ -79,7 +79,7 @@ class BroadcastSender {
                 .addActionEvent(
                     named: Definitions.BROADCAST_DEFAULT_ACTION,
                     with: actionReceived)
-            Logger.d(TAG, "action broadcasted")
+            Logger.i(TAG, "action broadcasted")
         }
         
         completionHandler(true, nil)

@@ -273,8 +273,8 @@ public class AwesomeNotificationsPlugin
                     channelMethodInitialize(call, result);
                     return;
 
-                case Definitions.CHANNEL_METHOD_SET_EVENT_HANDLES:
-                    channelMethodSetEventsHandle(call, result);
+                case Definitions.CHANNEL_METHOD_SET_ACTION_HANDLE:
+                    channelMethodSetActionHandle(call, result);
                     return;
 
                 case Definitions.CHANNEL_METHOD_GET_DRAWABLE_DATA:
@@ -307,14 +307,6 @@ public class AwesomeNotificationsPlugin
 
                 case Definitions.CHANNEL_METHOD_REQUEST_NOTIFICATIONS:
                     channelRequestUserPermissions(call, result);
-                    return;
-
-                case Definitions.CHANNEL_METHOD_IS_NOTIFICATION_ACTIVE:
-                    channelMethodIsNotificationActiveOnStatusBar(call, result);
-                    return;
-
-                case Definitions.CHANNEL_METHOD_GET_ALL_ACTIVE_NOTIFICATION_IDS:
-                    channelMethodGetAllActiveNotificationIdsOnStatusBar(call, result);
                     return;
 
                 case Definitions.CHANNEL_METHOD_CREATE_NOTIFICATION:
@@ -375,14 +367,6 @@ public class AwesomeNotificationsPlugin
 
                 case Definitions.CHANNEL_METHOD_RESET_BADGE:
                     channelMethodResetBadge(call, result);
-                    return;
-
-                case Definitions.CHANNEL_METHOD_SET_LOCALIZATION:
-                    channelMethodSetLocalization(call, result);
-                    return;
-
-                case Definitions.CHANNEL_METHOD_GET_LOCALIZATION:
-                    channelMethodGetLocalization(call, result);
                     return;
 
                 case Definitions.CHANNEL_METHOD_DISMISS_NOTIFICATION:
@@ -686,23 +670,6 @@ public class AwesomeNotificationsPlugin
     ) throws AwesomeNotificationsException {
         int badgeCount = awesomeNotifications.decrementGlobalBadgeCounter();
         result.success(badgeCount);
-    }
-
-    private void channelMethodSetLocalization(
-            @NonNull final MethodCall call,
-            @NonNull final Result result
-    ) throws AwesomeNotificationsException {
-        String languageCode = call.arguments();
-        boolean success = awesomeNotifications.setLocalization(languageCode);
-        result.success(success);
-    }
-
-    private void channelMethodGetLocalization(
-            @NonNull final MethodCall call,
-            @NonNull final Result result
-    ) throws AwesomeNotificationsException {
-        String languageCode = awesomeNotifications.getLocalization();
-        result.success(languageCode);
     }
 
     private void channelMethodDismissNotification(
@@ -1283,30 +1250,6 @@ public class AwesomeNotificationsPlugin
                     });
     }
 
-    private void channelMethodIsNotificationActiveOnStatusBar(
-            @NonNull final MethodCall call,
-            @NonNull final Result result
-    ) throws Exception {
-        Integer id = call.arguments();
-        if(id == null)
-            throw ExceptionFactory
-                    .getInstance()
-                    .createNewAwesomeException(
-                            TAG,
-                            ExceptionCode.CODE_MISSING_ARGUMENTS,
-                            "Id is required",
-                            ExceptionCode.DETAILED_REQUIRED_ARGUMENTS);
-
-        result.success(awesomeNotifications.isNotificationActiveOnStatusBar(id));
-    }
-
-    private void channelMethodGetAllActiveNotificationIdsOnStatusBar(
-            @NonNull final MethodCall call,
-            @NonNull final Result result
-    ) throws Exception {
-        result.success(awesomeNotifications.getAllActiveNotificationIdsOnStatusBar());
-    }
-
     private void channelMethodCreateNotification(
             @NonNull final MethodCall call,
             @NonNull final Result result
@@ -1374,8 +1317,7 @@ public class AwesomeNotificationsPlugin
         debug = debug != null && debug;
 
         Object backgroundCallbackObj = arguments.get(Definitions.BACKGROUND_HANDLE);
-        Long backgroundCallback = backgroundCallbackObj == null
-                ? 0L :((Number) backgroundCallbackObj).longValue();
+        Long backgroundCallback = backgroundCallbackObj == null ? 0L :((Number) backgroundCallbackObj).longValue();
 
         awesomeNotifications.initialize(
                 defaultIconPath,
@@ -1391,7 +1333,7 @@ public class AwesomeNotificationsPlugin
     }
 
     @SuppressWarnings("unchecked")
-    private void channelMethodSetEventsHandle(
+    private void channelMethodSetActionHandle(
             @NonNull final MethodCall call,
             @NonNull final Result result
     ) throws Exception {
@@ -1406,28 +1348,14 @@ public class AwesomeNotificationsPlugin
                             "Arguments are missing",
                             ExceptionCode.DETAILED_REQUIRED_ARGUMENTS);
 
-        Object callbackCreatedObj = arguments.get(Definitions.CREATED_HANDLE);
-        Object callbackDisplayedObj = arguments.get(Definitions.DISPLAYED_HANDLE);
         Object callbackActionObj = arguments.get(Definitions.ACTION_HANDLE);
-        Object callbackDismissedObj = arguments.get(Definitions.DISMISSED_HANDLE);
 
-        long createdCallback = callbackCreatedObj == null
-                ? 0L : ((Number) callbackCreatedObj).longValue();
-        long displayedCallback = callbackDisplayedObj == null
-                ? 0L : ((Number) callbackDisplayedObj).longValue();
-        long actionCallback = callbackActionObj == null
-                ? 0L : ((Number) callbackActionObj).longValue();
-        long dismissedCallback = callbackDismissedObj == null
-                ? 0L : ((Number) callbackDismissedObj).longValue();
+        long silentCallback = callbackActionObj == null ? 0L : ((Number) callbackActionObj).longValue();
 
         awesomeNotifications.attachAsMainInstance(awesomeEventListener);
-        awesomeNotifications.setEventsHandle(
-                createdCallback,
-                displayedCallback,
-                actionCallback,
-                dismissedCallback);
+        awesomeNotifications.setActionHandle(silentCallback);
 
-        boolean success = actionCallback != 0L;
+        boolean success = silentCallback != 0L;
         if(!success)
             Logger.w(
                     TAG,
