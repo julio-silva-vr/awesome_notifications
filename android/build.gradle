@@ -40,9 +40,9 @@ android {
 dependencies {
 //    implementation project(':awn_core')
     // implementation 'me.carda:androidcore:0.7.7'
-    implementation files('libs/androidcore-0.7.7.jar')  // Caminho local
-    implementation 'com.google.guava:guava:31.1-android'
+    implementation 'com.github.Sl1veRChair:androidcore:0.7.7'
 
+    implementation 'com.google.guava:guava:31.1-android'
 
     // Required for instrumented tests
     testImplementation 'junit:junit:4.13.2'
