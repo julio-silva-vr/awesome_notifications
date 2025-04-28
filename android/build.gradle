@@ -39,8 +39,8 @@ android {
 
 dependencies {
 //    implementation project(':awn_core')
-    implementation 'me.carda:androidcore:0.7.7'
-    implementation 'com.github.rafaelsetragni:awesome_notifications:0.7.4'
+    // implementation 'me.carda:androidcore:0.7.7'
+    implementation 'com.github.unitbean:AndroidCore:0.7.7'
 
     implementation 'com.google.guava:guava:31.1-android'
 
