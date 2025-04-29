@@ -41,6 +41,21 @@ dependencies {
     implementation files('libs/androidcore/androidcore-0.7.7.aar')
 
     implementation 'com.google.guava:guava:31.1-android'
+    
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'me.leolin:ShortcutBadger:1.1.22'
+    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.media:media:1.6.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-service:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.5.1'
 
     // Required for instrumented tests
     testImplementation 'junit:junit:4.13.2'
@@ -55,4 +70,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:core:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+
+    
 }
