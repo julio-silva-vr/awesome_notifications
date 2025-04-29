@@ -16,7 +16,6 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -39,7 +38,7 @@ android {
 dependencies {
 //    implementation project(':awn_core')
     // implementation 'me.carda:androidcore:0.7.7'
-    // implementation files('libs/androidcore/androidcore-0.7.7.aar')
+    implementation files('libs/androidcore/androidcore-0.7.7.aar')
 
     implementation 'com.google.guava:guava:31.1-android'
 
